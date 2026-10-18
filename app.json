@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "luthifer",
+    "name": "Luthifer",
     "slug": "luthifer",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "output": "server",
+      "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [

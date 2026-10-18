@@ -1,56 +1,41 @@
-# Welcome to your Expo app 👋
+# Luthifer
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Luthier helper tools — an Expo (SDK 58) / React Native app.
 
-## Get started
+## Tools
 
-1. Install dependencies
+- **Nut Slot Calculator** — string slot positions on a nut with an **equal air gap between neighbouring strings** (edge to edge), not equal center spacing.
 
-   ```bash
-   npm install
-   ```
+## Nut slot formula
 
-2. Start the app
+All values in inches, measured from the bass edge. Gauges `d₁ … dₙ` ordered bass → treble.
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+S  = W − a − b                 span between outer slot centers
+G  = S − Σd + (d₁ + dₙ)/2      total air inside the span
+g  = G / (n − 1)               equal gap between strings
+x₁ = a
+xᵢ = xᵢ₋₁ + (dᵢ₋₁ + dᵢ)/2 + g
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Example: W = 1 11/16", a = b = 0.125", 10–46 set → g = 0.2635", slots at
+0.1250, 0.4295, 0.7240, 1.0090, 1.2875, 1.5625".
 
-### Other setup steps
+## Develop
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+npm install
+npx expo start      # i = iOS simulator, w = web
+npm test            # spacing math tests
+npm run typecheck
+npx eslint .
+```
 
-## Learn more
+## Layout
 
-To learn more about developing your project with Expo, look at the following resources:
+- `src/app/` — routes (home, `nut/`)
+- `src/tools.ts` — tool registry shown on the home screen
+- `src/shared/` — units and inputs shared by all tools
+- `src/tools/nut/` — nut calculator: `spacing.ts` (math), string sets, diagram, table, store
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+To add a tool: create `src/tools/<id>/`, add routes under `src/app/<id>/`, and add an entry to `src/tools.ts`.

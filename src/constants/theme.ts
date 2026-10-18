@@ -3,8 +3,6 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://unistyl.es/), etc.
  */
 
-import '@/global.css';
-
 import { Platform } from 'react-native';
 
 export const Colors = {
@@ -14,6 +12,14 @@ export const Colors = {
     backgroundElement: '#F0F0F3',
     backgroundSelected: '#E0E1E6',
     textSecondary: '#60646C',
+    border: '#D9D9E0',
+    accent: '#B5651D',
+    bass: '#C2410C',
+    bassSoft: '#FDE7D8',
+    nut: '#F3EBDD',
+    nutStroke: '#A89F91',
+    string: '#4B5563',
+    danger: '#B91C1C',
   },
   dark: {
     text: '#ffffff',
@@ -21,6 +27,14 @@ export const Colors = {
     backgroundElement: '#212225',
     backgroundSelected: '#2E3135',
     textSecondary: '#B0B4BA',
+    border: '#3A3D42',
+    accent: '#E0954F',
+    bass: '#FB923C',
+    bassSoft: '#43230F',
+    nut: '#3B362E',
+    nutStroke: '#8A8273',
+    string: '#D1D5DB',
+    danger: '#F87171',
   },
 } as const;
 
@@ -44,10 +58,10 @@ export const Fonts = Platform.select({
     mono: 'monospace',
   },
   web: {
-    sans: 'var(--font-display)',
-    serif: 'var(--font-serif)',
-    rounded: 'var(--font-rounded)',
-    mono: 'var(--font-mono)',
+    sans: 'system-ui, sans-serif',
+    serif: 'Georgia, serif',
+    rounded: 'ui-rounded, sans-serif',
+    mono: 'ui-monospace, SFMono-Regular, Menlo, monospace',
   },
 });
 
@@ -61,5 +75,4 @@ export const Spacing = {
   six: 64,
 } as const;
 
-export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
 export const MaxContentWidth = 800;
