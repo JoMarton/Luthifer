@@ -3,7 +3,13 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import type { LengthUnit } from '@/shared/units';
-import { DEFAULT_SET_ID, defaultSetFor, getSet, resizeGauges } from '@/tools/nut/stringSets';
+import {
+  DEFAULT_SET_ID,
+  defaultSetFor,
+  getSet,
+  resizeGauges,
+  type StringSet,
+} from '@/tools/nut/stringSets';
 
 export const CUSTOM_SET_ID = 'custom';
 export const MIN_STRINGS = 4;
@@ -18,8 +24,10 @@ type NutState = {
   inputUnit: LengthUnit;
   /** Unit the results are shown in. */
   outputUnit: LengthUnit;
-  /** Preset id, or CUSTOM_SET_ID once any gauge has been edited. */
+  /** Preset or saved set id, or CUSTOM_SET_ID once any gauge has been edited. */
   setId: string;
+  /** String sets the user saved, newest first. */
+  savedSets: StringSet[];
   /** Bass → treble, inches. */
   gauges: number[];
   /** Draw the diagram with the bass side on the right. */
@@ -34,7 +42,15 @@ type NutState = {
   chooseSet: (id: string) => void;
   setGauge: (index: number, d: number) => void;
   setStringCount: (count: number) => void;
+  /** Save the current gauges under `name`. An existing saved set with that name is updated. */
+  saveSet: (name: string) => void;
+  deleteSet: (id: string) => void;
 };
+
+/** Look up a set by id among the saved sets and the presets. */
+export function findSet(savedSets: StringSet[], id: string): StringSet | undefined {
+  return savedSets.find((s) => s.id === id) ?? getSet(id);
+}
 
 export const useNutStore = create<NutState>()(
   persist(
@@ -45,6 +61,7 @@ export const useNutStore = create<NutState>()(
       inputUnit: 'in',
       outputUnit: 'in',
       setId: DEFAULT_SET_ID,
+      savedSets: [],
       gauges: getSet(DEFAULT_SET_ID)!.gauges,
       flipped: false,
 
@@ -56,8 +73,8 @@ export const useNutStore = create<NutState>()(
       setFlipped: (flipped) => set({ flipped }),
 
       chooseSet: (id) => {
-        const preset = getSet(id);
-        if (preset) set({ setId: id, gauges: preset.gauges });
+        const found = findSet(get().savedSets, id);
+        if (found) set({ setId: id, gauges: found.gauges });
       },
 
       setGauge: (index, d) =>
@@ -67,9 +84,35 @@ export const useNutStore = create<NutState>()(
         const n = Math.min(MAX_STRINGS, Math.max(MIN_STRINGS, count));
         const { gauges, setId } = get();
         if (n === gauges.length) return;
-        const preset = setId !== CUSTOM_SET_ID ? defaultSetFor(n) : undefined;
+        // Only switch to another preset when a preset is selected; otherwise keep the user's gauges.
+        const preset = getSet(setId) ? defaultSetFor(n) : undefined;
         if (preset) set({ setId: preset.id, gauges: preset.gauges });
         else set({ setId: CUSTOM_SET_ID, gauges: resizeGauges(gauges, n) });
+      },
+
+      saveSet: (name) => {
+        const trimmed = name.trim();
+        if (!trimmed) return;
+        const { savedSets, gauges } = get();
+        const existing = savedSets.find((s) => s.name.toLowerCase() === trimmed.toLowerCase());
+        const saved: StringSet = {
+          id: existing?.id ?? `user-${Date.now()}`,
+          name: trimmed,
+          gauges,
+        };
+        set({
+          setId: saved.id,
+          savedSets: [saved, ...savedSets.filter((s) => s.id !== saved.id)],
+        });
+      },
+
+      deleteSet: (id) => {
+        const { savedSets, setId } = get();
+        set({
+          savedSets: savedSets.filter((s) => s.id !== id),
+          // Keep the gauges on screen; they just aren't a saved set any more.
+          ...(setId === id ? { setId: CUSTOM_SET_ID } : {}),
+        });
       },
     }),
     {
@@ -83,6 +126,7 @@ export const useNutStore = create<NutState>()(
         inputUnit,
         outputUnit,
         setId,
+        savedSets,
         gauges,
         flipped,
       }) => ({
@@ -92,6 +136,7 @@ export const useNutStore = create<NutState>()(
         inputUnit,
         outputUnit,
         setId,
+        savedSets,
         gauges,
         flipped,
       }),

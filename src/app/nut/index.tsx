@@ -12,8 +12,13 @@ import { formatLength, parseLength, toEditText, toInches, type LengthUnit } from
 import { NutDiagram } from '@/tools/nut/NutDiagram';
 import { ResultsTable } from '@/tools/nut/ResultsTable';
 import { computeSlots } from '@/tools/nut/spacing';
-import { getSet } from '@/tools/nut/stringSets';
-import { CUSTOM_SET_ID, MAX_STRINGS, MIN_STRINGS, useNutStore } from '@/tools/nut/useNutStore';
+import {
+  CUSTOM_SET_ID,
+  findSet,
+  MAX_STRINGS,
+  MIN_STRINGS,
+  useNutStore,
+} from '@/tools/nut/useNutStore';
 
 const WIDTH_PRESETS: Record<LengthUnit, { label: string; inches: number }[]> = {
   in: [
@@ -44,7 +49,8 @@ export default function NutScreen() {
     gauges: s.gauges,
   });
 
-  const setName = s.setId === CUSTOM_SET_ID ? 'Custom' : (getSet(s.setId)?.name ?? 'Custom');
+  const setName =
+    s.setId === CUSTOM_SET_ID ? 'Custom' : (findSet(s.savedSets, s.setId)?.name ?? 'Custom');
 
   return (
     <ThemedView style={styles.container}>
