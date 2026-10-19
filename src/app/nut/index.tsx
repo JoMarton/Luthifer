@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 2 },
   chip: { paddingHorizontal: 8, gap: 0, backgroundColor: Palette.chip },
   chipActive: { backgroundColor: Palette.brass },
-  byGuitar: { fontSize: 10 },
+  byGuitar: { fontSize: 11 },
   helpLink: { marginTop: -4 },
   calcLink: {
     alignSelf: 'center',
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
   stepButton: { width: 36, minHeight: 30, height: 30, paddingHorizontal: 0 },
   stepLabel: { fontSize: 16 },
   count: { minWidth: 34, height: 26, alignItems: 'center', justifyContent: 'center' },
-  countText: { fontSize: 24, lineHeight: 24, color: Palette.lcd },
+  countText: { fontSize: 18, lineHeight: 22, color: Palette.lcd },
   setRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -374,8 +374,8 @@ const styles = StyleSheet.create({
   },
   setText: { flex: 1, gap: 2 },
   setName: { fontSize: 16 },
-  setGauges: { color: Palette.inkSoft },
-  edit: { fontSize: 11, color: Palette.rust },
+  setGauges: { fontSize: 14, color: Palette.inkSoft },
+  edit: { fontSize: 12, color: Palette.rust },
   resultsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -385,9 +385,9 @@ const styles = StyleSheet.create({
   panel: { backgroundColor: Palette.panel, padding: 10, gap: 10 },
   diagram: { paddingTop: 10, paddingBottom: 6, paddingHorizontal: 6 },
   errors: { minHeight: 112, justifyContent: 'center', gap: 6, paddingHorizontal: 6 },
-  errorText: { fontSize: 20, lineHeight: 22, color: Palette.lcd },
+  errorText: { fontSize: 15, lineHeight: 20, color: Palette.lcd },
   fullScreenButton: { backgroundColor: Palette.maple },
-  fullScreenLabel: { fontSize: 12 },
+  fullScreenLabel: { fontSize: 13 },
   flipRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
   flipLabel: { fontSize: 14, color: Palette.cream },
   summary: { flexDirection: 'row', gap: 10 },
   readout: { flex: 1, backgroundColor: Palette.panel, padding: 8, gap: 6 },
-  readoutLabel: { fontSize: 10, letterSpacing: 1, color: Palette.cream },
+  readoutLabel: { fontSize: 11, letterSpacing: 1, color: Palette.cream },
   readoutLcd: { paddingHorizontal: 10, paddingVertical: 2 },
-  readoutValue: { fontSize: 34, lineHeight: 38, color: Palette.lcd, textAlign: 'right' },
+  readoutValue: { fontSize: 26, lineHeight: 32, color: Palette.lcd, textAlign: 'right' },
 });

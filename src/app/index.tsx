@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { Palette } from '@/constants/theme';
+import { Fonts, Palette } from '@/constants/theme';
 import { bevel, Screen, T, Window } from '@/shared/components/retro';
 import { TOOLS } from '@/tools';
 
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   screwLeft: { left: 7 },
   screwRight: { right: 7 },
   wordmark: {
+    fontFamily: Fonts.wordmark,
     fontSize: 34,
     letterSpacing: 3,
     color: '#2A1606',
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 0,
   },
-  tagline: { fontSize: 11, letterSpacing: 2, color: '#3A2410' },
+  tagline: { fontSize: 12, letterSpacing: 2, color: '#3A2410' },
   drawer: { flex: 1 },
   drawerBody: { flex: 1, gap: 12, paddingBottom: 4, paddingHorizontal: 14 },
   winButtons: { flexDirection: 'row', gap: 4 },
@@ -137,10 +138,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(74,44,26,0.08)',
   },
-  slotText: { fontSize: 10, color: Palette.inkMuted, textAlign: 'center' },
+  slotText: { fontSize: 11, color: Palette.inkMuted, textAlign: 'center' },
   more: { textAlign: 'center' },
   spacer: { flex: 1 },
   statusBar: { flexDirection: 'row', gap: 4, marginHorizontal: -10, marginBottom: -2 },
-  statusCell: { paddingHorizontal: 8, paddingVertical: 2, fontSize: 18, color: '#3A2410' },
+  statusCell: { paddingHorizontal: 8, paddingVertical: 4, fontSize: 15, color: '#3A2410' },
   statusGrow: { flex: 1 },
 });

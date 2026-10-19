@@ -70,7 +70,7 @@ function OffsetFigure() {
         <Polyline points="232,91 226,96 232,101" />
         <Polyline points="274,91 280,96 274,101" />
       </G>
-      <G fontFamily={Fonts.lcd} fontSize={16} fill={c}>
+      <G fontFamily={Fonts.lcd} fontSize={12} fill={c}>
         <SvgText x={20} y={24}>
           BASS OFFSET
         </SvgText>
@@ -275,11 +275,11 @@ function Calc({ children }: { children: ReactNode }) {
 const styles = StyleSheet.create({
   figure: { paddingVertical: 8, paddingHorizontal: 4 },
   section: { gap: 6 },
-  sectionTitle: { fontSize: 11, color: Palette.rust, letterSpacing: 0.5 },
+  sectionTitle: { fontSize: 12, color: Palette.rust, letterSpacing: 0.5 },
   paragraph: { fontSize: 15, lineHeight: 21 },
-  calc: { fontSize: 20, lineHeight: 22, color: Palette.ink },
+  calc: { fontSize: 15, lineHeight: 21, color: Palette.ink },
   steps: { paddingVertical: 6, paddingHorizontal: 8, gap: 2, marginTop: 4 },
-  stepLine: { fontSize: 18, lineHeight: 20, color: Palette.lcd },
+  stepLine: { fontSize: 13, lineHeight: 19, color: Palette.lcd },
   list: { backgroundColor: Palette.field },
   row: {
     flexDirection: 'row',
@@ -293,8 +293,8 @@ const styles = StyleSheet.create({
   },
   rowActive: { backgroundColor: Palette.zebra },
   rowText: { flex: 1, gap: 1 },
-  brand: { fontSize: 9, color: Palette.rust },
+  brand: { fontSize: 11, color: Palette.rust },
   rowValues: { alignItems: 'flex-end' },
-  primary: { fontSize: 22, lineHeight: 22 },
-  secondary: { fontSize: 16, lineHeight: 16, color: Palette.inkSoft },
+  primary: { fontSize: 16, lineHeight: 20 },
+  secondary: { fontSize: 12, lineHeight: 16, color: Palette.inkSoft },
 });

@@ -280,7 +280,7 @@ function TrashIcon() {
 }
 
 const styles = StyleSheet.create({
-  titleNote: { fontSize: 18, color: Palette.titleText, paddingRight: 6 },
+  titleNote: { fontSize: 15, color: Palette.titleText, paddingRight: 6 },
   listBody: { padding: 6 },
   list: { backgroundColor: Palette.field },
   empty: {
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     boxShadow: `inset 0px 0px 0px 3px ${Palette.field}`,
   },
   rowText: { flex: 1, gap: 1 },
-  rowGauges: { fontSize: 19, color: Palette.inkSoft },
+  rowGauges: { fontSize: 15, color: Palette.inkSoft },
   delete: {
     width: 48,
     alignItems: 'center',
@@ -329,12 +329,12 @@ const styles = StyleSheet.create({
     borderLeftColor: Palette.rowLine,
   },
   deleteArmed: { backgroundColor: Palette.bassRed },
-  deleteConfirm: { fontSize: 10, color: Palette.field },
+  deleteConfirm: { fontSize: 11, color: Palette.field },
   gaugeState: {
     flex: 1,
     marginLeft: 12,
     paddingRight: 6,
-    fontSize: 10,
+    fontSize: 11,
     color: Palette.titleWarn,
     textAlign: 'right',
   },
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
   gaugeField: { width: 96 },
   saveOpen: { marginTop: 8 },
   preview: { backgroundColor: Palette.lcdBg, paddingVertical: 6, paddingHorizontal: 10 },
-  previewText: { fontSize: 22, color: Palette.lcd },
+  previewText: { fontSize: 16, color: Palette.lcd },
   nameField: { gap: 6 },
   nameInput: {
     height: 44,
@@ -361,5 +361,5 @@ const styles = StyleSheet.create({
   },
   dialogButtons: { flexDirection: 'row', justifyContent: 'flex-end', gap: 8 },
   saveButton: { backgroundColor: Palette.brass },
-  saveLabel: { fontSize: 12 },
+  saveLabel: { fontSize: 13 },
 });

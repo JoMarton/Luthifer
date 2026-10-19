@@ -88,9 +88,9 @@ const styles = StyleSheet.create({
     height: '100%',
     padding: 0,
     fontFamily: Fonts.lcd,
-    fontSize: 26,
+    fontSize: 18,
     color: Palette.ink,
     textAlign: 'right',
   },
-  suffix: { fontSize: 22, color: Palette.inkMuted },
+  suffix: { fontSize: 16, color: Palette.inkMuted },
 });

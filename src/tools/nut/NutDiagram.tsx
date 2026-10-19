@@ -15,9 +15,9 @@ const SIDE_LABEL_Y = 76;
 const FIRST_ROW = NUT_BOTTOM + 20;
 const ROW_HEIGHT = 17;
 const MAX_ROWS = 4;
-const POSITION_FONT = 17;
-/** VT323 glyphs are about half an em wide. */
-const CHAR_WIDTH = POSITION_FONT * 0.5;
+const POSITION_FONT = 13;
+/** IBM Plex Mono glyphs are 0.6 em wide. */
+const CHAR_WIDTH = POSITION_FONT * 0.6;
 /** Strings are drawn at up to twice their true scale so the thin ones stay visible. */
 const STRING_ZOOM = 2;
 
@@ -53,7 +53,7 @@ export function NutDiagram({
   const right = PAD + inner;
   const mid = logicalWidth / 2;
   const widthLabel = formatLength(width, unit, unit === 'in' ? 4 : 2);
-  const labelBox = widthLabel.length * 9 + 12;
+  const labelBox = widthLabel.length * 14 * 0.6 + 12;
 
   // Slot positions sit under the nut; alternate two rows when they would overlap.
   const positions = slots.map((s) => formatLength(s.fromBass, unit, undefined, false));
@@ -90,7 +90,7 @@ export function NutDiagram({
           viewBox={`0 0 ${logicalWidth} ${height}`}
           role="img"
           aria-label={description}>
-          <G fontFamily={Fonts.lcd} fontSize={18} fill={color} textAnchor="middle">
+          <G fontFamily={Fonts.lcd} fontSize={13} fill={color} textAnchor="middle">
             {slots.map((s) => (
               <SvgText key={s.index} x={x(s.fromBass)} y={NUMBER_Y}>
                 {s.stringNumber}
@@ -124,7 +124,7 @@ export function NutDiagram({
             x={flipped ? right - 4 : left + 4}
             y={SIDE_LABEL_Y}
             fontFamily={Fonts.lcd}
-            fontSize={16}
+            fontSize={12}
             fill={color}
             textAnchor={flipped ? 'end' : 'start'}>
             BASS
@@ -133,7 +133,7 @@ export function NutDiagram({
             x={flipped ? left + 4 : right - 4}
             y={SIDE_LABEL_Y}
             fontFamily={Fonts.lcd}
-            fontSize={16}
+            fontSize={12}
             fill={color}
             opacity={0.7}
             textAnchor={flipped ? 'start' : 'end'}>
@@ -163,7 +163,7 @@ export function NutDiagram({
             x={flipped ? right : left}
             y={captionY}
             fontFamily={Fonts.lcd}
-            fontSize={14}
+            fontSize={11}
             fill={color}
             opacity={0.7}
             textAnchor={flipped ? 'end' : 'start'}>
@@ -193,7 +193,7 @@ export function NutDiagram({
             x={mid}
             y={dimY + 6}
             fontFamily={Fonts.lcd}
-            fontSize={20}
+            fontSize={14}
             fill={color}
             textAnchor="middle">
             {widthLabel}

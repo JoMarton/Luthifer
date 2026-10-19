@@ -53,5 +53,5 @@ const styles = StyleSheet.create({
   key: { width: 44, alignItems: 'center', justifyContent: 'center' },
   selected: { backgroundColor: Palette.paper },
   idle: { backgroundColor: Palette.toggleUp },
-  label: { fontSize: 11 },
+  label: { fontSize: 12 },
 });

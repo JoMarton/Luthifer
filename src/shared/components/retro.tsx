@@ -51,14 +51,14 @@ export const bevel = StyleSheet.create({
 
 const textVariants = StyleSheet.create({
   /** Pixel font for titles and labels. */
-  display: { fontFamily: Fonts.display, fontSize: 12, color: Palette.ink },
+  display: { fontFamily: Fonts.display, fontSize: 13, color: Palette.ink },
   displayBold: { fontFamily: Fonts.displayBold, fontSize: 18, color: Palette.ink },
   body: { fontFamily: Fonts.body, fontSize: 15, lineHeight: 20, color: Palette.ink },
   bodyBold: { fontFamily: Fonts.bodyBold, fontSize: 15, lineHeight: 20, color: Palette.ink },
   bodyItalic: { fontFamily: Fonts.bodyItalic, fontSize: 14, color: Palette.inkSoft },
   hint: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 16, color: Palette.inkSoft },
   /** Seven-segment-style digits. */
-  lcd: { fontFamily: Fonts.lcd, fontSize: 20, color: Palette.ink },
+  lcd: { fontFamily: Fonts.lcd, fontSize: 16, color: Palette.ink },
 });
 
 export type TextVariant = keyof typeof textVariants;
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
   link: { alignSelf: 'flex-start', paddingVertical: 4 },
   linkPressed: { opacity: 0.6 },
   linkText: {
-    fontSize: 11,
+    fontSize: 12,
     color: Palette.rust,
     textDecorationLine: 'underline',
     letterSpacing: 0.5,

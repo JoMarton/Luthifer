@@ -47,13 +47,19 @@ export const Palette = {
 
 /** Font family names as registered by the @expo-google-fonts packages (loaded in the root layout). */
 export const Fonts = {
-  display: 'Silkscreen_400Regular',
-  displayBold: 'Silkscreen_700Bold',
+  /** Labels, title bars, buttons. */
+  display: 'IBMPlexMono_400Regular',
+  /** Headings on the wood background. */
+  displayBold: 'IBMPlexMono_600SemiBold',
+  /** The LUTHIFER wordmark only. */
+  wordmark: 'Silkscreen_700Bold',
   body: 'Bitter_400Regular',
   bodyItalic: 'Bitter_400Regular_Italic',
   bodySemi: 'Bitter_600SemiBold',
   bodyBold: 'Bitter_700Bold',
-  lcd: 'VT323_400Regular',
+  /** Numbers: fields, readouts, the diagram and the table. */
+  lcd: 'IBMPlexMono_400Regular',
+  lcdMedium: 'IBMPlexMono_500Medium',
 } as const;
 
 export const Spacing = {

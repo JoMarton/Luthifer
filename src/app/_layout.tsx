@@ -4,8 +4,12 @@ import {
   Bitter_600SemiBold,
   Bitter_700Bold,
 } from '@expo-google-fonts/bitter';
-import { Silkscreen_400Regular, Silkscreen_700Bold } from '@expo-google-fonts/silkscreen';
-import { VT323_400Regular } from '@expo-google-fonts/vt323';
+import {
+  IBMPlexMono_400Regular,
+  IBMPlexMono_500Medium,
+  IBMPlexMono_600SemiBold,
+} from '@expo-google-fonts/ibm-plex-mono';
+import { Silkscreen_700Bold } from '@expo-google-fonts/silkscreen';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -23,9 +27,10 @@ export default function RootLayout() {
     Bitter_400Regular_Italic,
     Bitter_600SemiBold,
     Bitter_700Bold,
-    Silkscreen_400Regular,
+    IBMPlexMono_400Regular,
+    IBMPlexMono_500Medium,
+    IBMPlexMono_600SemiBold,
     Silkscreen_700Bold,
-    VT323_400Regular,
   });
 
   useEffect(() => {
