@@ -27,7 +27,13 @@
     },
     "web": {
       "output": "single",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "name": "Luthifer",
+      "shortName": "Luthifer",
+      "description": "Luthier helper tools: nut slot spacing with an equal gap between every string.",
+      "themeColor": "#4A2C1A",
+      "backgroundColor": "#4A2C1A",
+      "lang": "en"
     },
     "plugins": [
       "expo-router",
@@ -42,7 +48,8 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "reactCompiler": true
+      "reactCompiler": true,
+      "baseUrl": "/Luthifer/app"
     },
     "backgroundColor": "#4A2C1A"
   }

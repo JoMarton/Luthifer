@@ -26,7 +26,7 @@ Example: W = 1 11/16", a = b = 0.125", 10–46 set → g = 0.2635", slots at
 ```bash
 npm install
 npx expo start      # i = iOS simulator, w = web
-npm test            # spacing math tests
+npm test            # unit and screen tests
 npm run typecheck
 npx eslint .
 npm run icons       # re-render icon, adaptive icon, splash and favicon from scripts/icon-art.mjs
@@ -37,10 +37,31 @@ npm run icons       # re-render icon, adaptive icon, splash and favicon from scr
 - Bundle ID / package: `com.jomarton.luthifer` (iOS and Android).
 - Builds: `npx eas-cli@latest build --profile production --platform ios|android`, then
   `npx eas-cli@latest submit`. `preview` makes internal test builds (Android APK).
-- Store pages: `docs/` is a small static site (support page and privacy policy) for GitHub Pages —
-  enable Pages from the `main` branch, `/docs` folder. URLs:
+- Website: GitHub Pages, deployed by CI from `main` (repo Settings → Pages → Source:
+  **GitHub Actions**). The site is `docs/` plus the web app under `/app`:
+  - Web app: https://jomarton.github.io/Luthifer/app/
   - Support: https://jomarton.github.io/Luthifer/
   - Privacy policy: https://jomarton.github.io/Luthifer/privacy.html
+
+## Web
+
+```bash
+npm run build:site   # expo export + docs/ → build/site (app under /app, 404.html for deep links)
+npm run serve:site   # serve build/site like GitHub Pages: http://localhost:4173/Luthifer/app/
+```
+
+The app is served from `/Luthifer/app` (`experiments.baseUrl` in app.json). `public/` holds the
+web page template, manifest and home-screen icons.
+
+## Testing
+
+- `npm test` — Jest: spacing math, units, string sets and the store, plus screen tests that
+  render the home, calculator and string-set screens (React Native Testing Library).
+- `npm run test:e2e` — Playwright browser tests against the production web build
+  (`npm run build:site` first) in desktop Chrome, an Android phone and iPhone Safari (WebKit).
+  First run: `npx playwright install chromium webkit`.
+- CI (`.github/workflows/ci.yml`) runs typecheck, lint, Jest, then builds the site and runs the
+  browser tests on every push; on `main` it deploys to GitHub Pages only if everything passes.
 
 ## Layout
 

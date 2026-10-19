@@ -11,6 +11,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 
 import { Palette } from '@/constants/theme';
 
@@ -31,8 +32,10 @@ export default function RootLayout() {
     if (loaded || error) SplashScreen.hideAsync();
   }, [loaded, error]);
 
-  // Fall back to system fonts rather than a blank screen if the fonts fail to load.
-  if (!loaded && !error) return null;
+  // Native: wait for the bundled fonts (fast), falling back to system fonts on error.
+  // Web: render at once and let the fonts swap in — Safari's font-load detection can
+  // otherwise hold a blank page for many seconds.
+  if (!loaded && !error && Platform.OS !== 'web') return null;
 
   return (
     <>

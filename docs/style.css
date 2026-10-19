@@ -91,3 +91,18 @@ pre {
   overflow-x: auto;
   font-size: 15px;
 }
+
+.button {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #c8932e;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+  border: 2px solid;
+  border-color: var(--light) var(--dark) var(--dark) var(--light);
+  box-shadow: 1px 1px 0 #24130a;
+}
+.button:hover { color: var(--ink); background: #d9a43c; }

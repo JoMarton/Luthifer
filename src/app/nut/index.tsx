@@ -228,7 +228,11 @@ export default function NutScreen() {
               flipped={s.flipped}
             />
           ) : (
-            <View style={styles.errors} accessibilityRole="alert">
+            <View
+              style={styles.errors}
+              accessible
+              accessibilityRole="alert"
+              accessibilityLiveRegion="polite">
               {result.errors.map((e) => (
                 <T key={e} v="lcd" style={styles.errorText}>
                   ERR: {e}

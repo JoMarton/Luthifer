@@ -3,7 +3,7 @@ import { Modal, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Palette } from '@/constants/theme';
-import { bevel, BevelButton, Lcd, T } from '@/shared/components/retro';
+import { bevel, BevelButton, Lcd, T, useEscapeKey } from '@/shared/components/retro';
 import { UnitToggle } from '@/shared/components/UnitToggle';
 import { formatLength, type LengthUnit } from '@/shared/units';
 import { NutDiagram } from '@/tools/nut/NutDiagram';
@@ -43,6 +43,7 @@ export function FullScreenDiagram({
 }) {
   const screen = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  useEscapeKey(visible, onClose);
   const rotate = screen.height > screen.width;
   const long = Math.max(screen.width, screen.height);
   const short = Math.min(screen.width, screen.height);

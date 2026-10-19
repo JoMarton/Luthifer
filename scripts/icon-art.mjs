@@ -153,6 +153,17 @@ export function adaptiveForegroundSvg(mono = null) {
 </svg>`;
 }
 
+/** Web "maskable" icon: walnut plus the mark kept inside the 80% safe circle. */
+export function maskableSvg() {
+  const s = 0.64;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  ${woodGrain('m', 1024)}
+  <g transform="translate(${512 - 512 * s} ${512 - 490 * s}) scale(${s})">
+    ${mark({ stringTop: 150 })}
+  </g>
+</svg>`;
+}
+
 /** Splash: the mark plus the LUTHIFER wordmark on transparent. */
 export function splashSvg() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">

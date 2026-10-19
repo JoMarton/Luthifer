@@ -1,6 +1,7 @@
-import { useId, type ReactNode } from 'react';
+import { useEffect, useId, type ReactNode } from 'react';
 import {
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -297,6 +298,21 @@ export function TextLink({
   );
 }
 
+/**
+ * On the web, close with Escape from anywhere on the page — not only once focus
+ * has moved into the dialog.
+ */
+export function useEscapeKey(active: boolean, onEscape: () => void) {
+  useEffect(() => {
+    if (!active || Platform.OS !== 'web') return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onEscape();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [active, onEscape]);
+}
+
 /** A maple window floating over a dimmed screen. The body scrolls when it is tall. */
 export function Dialog({
   visible,
@@ -312,6 +328,7 @@ export function Dialog({
   children: ReactNode;
 }) {
   const insets = useSafeAreaInsets();
+  useEscapeKey(visible, onClose);
   return (
     <Modal
       visible={visible}

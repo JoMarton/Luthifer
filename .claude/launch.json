@@ -24,6 +24,15 @@
         "docs"
       ],
       "port": 8090
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "scripts/serve-site.mjs"
+      ],
+      "port": 4173,
+      "url": "http://localhost:4173"
     }
   ]
 }
