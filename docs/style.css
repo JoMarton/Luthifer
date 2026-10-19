@@ -1,0 +1,93 @@
+:root {
+  --wood: #4a2c1a;
+  --maple: #e9cfa0;
+  --field: #fffbf0;
+  --ink: #2a1a10;
+  --ink-soft: #5a3d26;
+  --rust: #8a3a16;
+  --light: #fff6e2;
+  --dark: #6e4b2e;
+  --title-from: #5e1f10;
+  --title-to: #a5471e;
+  --title-text: #fff1d6;
+  --lcd-bg: #1c120a;
+  --lcd: #ffb347;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 16px;
+  min-height: 100vh;
+  background-color: var(--wood);
+  background-image:
+    repeating-linear-gradient(91deg, rgba(0, 0, 0, 0.13) 0 2px, transparent 2px 7px,
+      rgba(255, 214, 160, 0.06) 7px 9px, transparent 9px 16px),
+    repeating-linear-gradient(89deg, rgba(0, 0, 0, 0.09) 0 1px, transparent 1px 27px);
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.window {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--maple);
+  border: 2px solid;
+  border-color: var(--light) var(--dark) var(--dark) var(--light);
+  box-shadow: 2px 2px 0 #24130a;
+}
+
+.titlebar {
+  background: linear-gradient(90deg, var(--title-from), var(--title-to));
+  padding: 8px 12px;
+}
+
+.titlebar h1 {
+  margin: 0;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--title-text);
+}
+
+.body { padding: 20px 24px 28px; }
+
+h2 {
+  margin: 28px 0 6px;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+
+p, li { font-size: 17px; }
+ul { padding-left: 22px; }
+a { color: var(--rust); }
+a:hover { color: #5c220b; }
+
+.meta { margin-top: 0; color: var(--ink-soft); }
+.back { margin-top: 32px; }
+
+.icon {
+  display: block;
+  border-radius: 22px;
+  box-shadow: 2px 2px 0 #24130a;
+  margin-bottom: 12px;
+}
+
+code, pre {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+pre {
+  background: var(--lcd-bg);
+  color: var(--lcd);
+  padding: 12px 14px;
+  border: 3px solid;
+  border-color: #24130a #8a6a4a #8a6a4a #24130a;
+  overflow-x: auto;
+  font-size: 15px;
+}

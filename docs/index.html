@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luthifer Support</title>
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="window">
+  <header class="titlebar"><h1>LUTHIFER</h1></header>
+  <div class="body">
+    <img class="icon" src="icon.png" alt="Luthifer app icon" width="96" height="96">
+    <p class="meta">Luthier helper tools</p>
+
+    <h2>Nut Slot Calculator</h2>
+    <p>Works out where to cut each string slot on a guitar nut so that every pair of
+      neighbouring strings has the <strong>same gap between them</strong>, edge to edge.
+      Enter the nut width, the bass and treble offsets and your string gauges, in inches
+      or millimeters, and read the slot positions from the diagram and table.</p>
+
+    <h2>How the spacing is calculated</h2>
+    <p>With nut width <code>W</code>, offsets <code>a</code> and <code>b</code>, and string
+      gauges <code>d₁ … dₙ</code> from bass to treble:</p>
+    <pre>S  = W − a − b
+G  = S − Σd + (d₁ + dₙ)/2
+g  = G / (n − 1)
+x₁ = a
+xᵢ = xᵢ₋₁ + (dᵢ₋₁ + dᵢ)/2 + g</pre>
+    <p>The app shows this working with your own numbers under
+      <em>How it was calculated</em>.</p>
+
+    <h2>Help and feedback</h2>
+    <p>Found a problem or have an idea for another tool? Open an issue on
+      <a href="https://github.com/JoMarton/Luthifer/issues">GitHub</a>.</p>
+
+    <p><a href="privacy.html">Privacy policy</a></p>
+  </div>
+</main>
+</body>
+</html>

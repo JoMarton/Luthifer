@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  
+  <defs>
+    <pattern id="ga" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(1)">
+      <rect x="0" width="5" height="40" fill="rgba(0,0,0,0.16)"/>
+      <rect x="18" width="5" height="40" fill="rgba(255,214,160,0.07)"/>
+    </pattern>
+    <pattern id="gb" width="70" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(-1)">
+      <rect x="0" width="3" height="40" fill="rgba(0,0,0,0.11)"/>
+    </pattern>
+    <radialGradient id="gv" cx="50%" cy="45%" r="70%">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.35"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="#4A2C1A"/>
+  <rect width="1024" height="1024" fill="url(#ga)"/>
+  <rect width="1024" height="1024" fill="url(#gb)"/>
+  <rect width="1024" height="1024" fill="url(#gv)"/>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  
+  <defs>
+    <pattern id="ga" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(1)">
+      <rect x="0" width="5" height="40" fill="rgba(0,0,0,0.16)"/>
+      <rect x="18" width="5" height="40" fill="rgba(255,214,160,0.07)"/>
+    </pattern>
+    <pattern id="gb" width="70" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(-1)">
+      <rect x="0" width="3" height="40" fill="rgba(0,0,0,0.11)"/>
+    </pattern>
+    <radialGradient id="gv" cx="50%" cy="45%" r="70%">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.35"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="#4A2C1A"/>
+  <rect width="1024" height="1024" fill="url(#ga)"/>
+  <rect width="1024" height="1024" fill="url(#gb)"/>
+  <rect width="1024" height="1024" fill="url(#gv)"/>
+  <rect x="166" y="484" width="720" height="200" fill="#24130A"/>
+       <rect x="152" y="470" width="720" height="200" fill="#E9CFA0"/>
+       <polygon points="152,470 872,470 858,484 166,484 166,656 152,670" fill="#FFF6E2"/>
+       <polygon points="872,470 872,670 152,670 166,656 858,656 858,484" fill="#6E4B2E"/>
+       <rect x="166" y="484" width="692" height="172" fill="#E9CFA0"/>
+<rect x="187.1" y="470" width="36.5" height="34" fill="#3A2212"/>
+<rect x="320.1" y="470" width="30.3" height="34" fill="#3A2212"/>
+<rect x="448.9" y="470" width="24.1" height="34" fill="#3A2212"/>
+<rect x="573.2" y="470" width="18.5" height="34" fill="#3A2212"/>
+<rect x="693.3" y="470" width="16.0" height="34" fill="#3A2212"/>
+<rect x="811.2" y="470" width="15.0" height="34" fill="#3A2212"/>
+<rect x="191.1" y="0" width="28.5" height="489.77066666666667" fill="#FFB347"/>
+      <rect x="191.1" y="0" width="10.0" height="489.77066666666667" fill="#FFE0A6" opacity="0.55"/>
+<rect x="324.1" y="0" width="22.3" height="492.864" fill="#FFB347"/>
+      <rect x="324.1" y="0" width="7.8" height="492.864" fill="#FFE0A6" opacity="0.55"/>
+<rect x="452.9" y="0" width="16.1" height="495.95733333333334" fill="#FFB347"/>
+      <rect x="452.9" y="0" width="5.6" height="495.95733333333334" fill="#FFE0A6" opacity="0.55"/>
+<rect x="577.2" y="0" width="10.5" height="498.74133333333333" fill="#FFB347"/>
+      <rect x="577.2" y="0" width="3.7" height="498.74133333333333" fill="#FFE0A6" opacity="0.55"/>
+<rect x="697.3" y="0" width="8.0" height="499.97866666666664" fill="#FFB347"/>
+      <rect x="697.3" y="0" width="2.8" height="499.97866666666664" fill="#FFE0A6" opacity="0.55"/>
+<rect x="815.2" y="0" width="7.0" height="500.5" fill="#FFB347"/>
+      <rect x="815.2" y="0" width="2.4" height="500.5" fill="#FFE0A6" opacity="0.55"/>
+
+    <g fill="#FFB347">
+      <rect x="152" y="785" width="720" height="10"/>
+      <rect x="152" y="750" width="10" height="80"/>
+      <rect x="862" y="750" width="10" height="80"/>
+      <polygon points="162,790 206,764 206,816"/>
+      <polygon points="862,790 818,764 818,816"/>
+    </g>
+</svg>

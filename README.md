@@ -29,7 +29,18 @@ npx expo start      # i = iOS simulator, w = web
 npm test            # spacing math tests
 npm run typecheck
 npx eslint .
+npm run icons       # re-render icon, adaptive icon, splash and favicon from scripts/icon-art.mjs
 ```
+
+## Releasing
+
+- Bundle ID / package: `com.jomarton.luthifer` (iOS and Android).
+- Builds: `npx eas-cli@latest build --profile production --platform ios|android`, then
+  `npx eas-cli@latest submit`. `preview` makes internal test builds (Android APK).
+- Store pages: `docs/` is a small static site (support page and privacy policy) for GitHub Pages —
+  enable Pages from the `main` branch, `/docs` folder. URLs:
+  - Support: https://jomarton.github.io/Luthifer/
+  - Privacy policy: https://jomarton.github.io/Luthifer/privacy.html
 
 ## Layout
 
