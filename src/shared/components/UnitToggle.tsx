@@ -1,41 +1,46 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { ThemedText } from '@/components/themed-text';
-import { useTheme } from '@/hooks/use-theme';
+import { Palette } from '@/constants/theme';
+import { bevel, T } from '@/shared/components/retro';
 import type { LengthUnit } from '@/shared/units';
 
-const OPTIONS: { unit: LengthUnit; label: string }[] = [
-  { unit: 'in', label: 'in' },
-  { unit: 'mm', label: 'mm' },
-];
+const OPTIONS: LengthUnit[] = ['in', 'mm'];
 
+/** Two bevelled keys; the selected unit stays pressed in. */
 export function UnitToggle({
   value,
   onChange,
   accessibilityLabel,
+  height = 30,
 }: {
   value: LengthUnit;
   onChange: (u: LengthUnit) => void;
   accessibilityLabel?: string;
+  height?: number;
 }) {
-  const theme = useTheme();
   return (
     <View
       accessibilityRole="radiogroup"
       accessibilityLabel={accessibilityLabel}
-      style={[styles.group, { backgroundColor: theme.backgroundElement }]}>
-      {OPTIONS.map(({ unit, label }) => {
+      style={styles.group}>
+      {OPTIONS.map((unit) => {
         const selected = unit === value;
         return (
           <Pressable
             key={unit}
             accessibilityRole="radio"
             accessibilityState={{ selected }}
+            accessibilityLabel={unit === 'in' ? 'inches' : 'millimeters'}
+            hitSlop={{ top: (44 - height) / 2, bottom: (44 - height) / 2 }}
             onPress={() => onChange(unit)}
-            style={[styles.option, selected && { backgroundColor: theme.accent }]}>
-            <ThemedText type="smallBold" style={selected ? styles.selectedText : undefined}>
-              {label}
-            </ThemedText>
+            style={[
+              styles.key,
+              { height },
+              selected ? [bevel.in, styles.selected] : [bevel.outFlat, styles.idle],
+            ]}>
+            <T v="display" style={styles.label}>
+              {unit.toUpperCase()}
+            </T>
           </Pressable>
         );
       })}
@@ -44,7 +49,9 @@ export function UnitToggle({
 }
 
 const styles = StyleSheet.create({
-  group: { flexDirection: 'row', borderRadius: 8, padding: 2 },
-  option: { paddingHorizontal: 14, paddingVertical: 4, borderRadius: 6 },
-  selectedText: { color: '#ffffff' },
+  group: { flexDirection: 'row' },
+  key: { width: 44, alignItems: 'center', justifyContent: 'center' },
+  selected: { backgroundColor: Palette.paper },
+  idle: { backgroundColor: Palette.toggleUp },
+  label: { fontSize: 11 },
 });

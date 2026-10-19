@@ -1,69 +1,60 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://unistyl.es/), etc.
+ * Luthifer's "Workshop '97" look: dark wood, maple panels with bevelled edges,
+ * rust title bars and amber LCD readouts.
  */
 
-import { Platform } from 'react-native';
+export const Palette = {
+  // Surfaces
+  wood: '#4A2C1A',
+  maple: '#E9CFA0',
+  paper: '#FBF3E2',
+  field: '#FFFBF0',
+  fieldFocus: '#FFF3D0',
+  panel: '#6E4B2E',
+  zebra: '#F6E3C0',
+  rowLine: '#E2CDA6',
+  chip: '#F2DFB8',
+  toggleUp: '#D7B47C',
+  brass: '#C8932E',
+  brassLight: '#F6DE9C',
 
-export const Colors = {
-  light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
-    border: '#D9D9E0',
-    accent: '#B5651D',
-    bass: '#C2410C',
-    bassSoft: '#FDE7D8',
-    nut: '#F3EBDD',
-    nutStroke: '#A89F91',
-    string: '#4B5563',
-    danger: '#B91C1C',
-  },
-  dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
-    border: '#3A3D42',
-    accent: '#E0954F',
-    bass: '#FB923C',
-    bassSoft: '#43230F',
-    nut: '#3B362E',
-    nutStroke: '#8A8273',
-    string: '#D1D5DB',
-    danger: '#F87171',
-  },
+  // Bevels
+  bevelLight: '#FFF6E2',
+  bevelDark: '#6E4B2E',
+  bevelShadow: '#24130A',
+
+  // Title bars
+  titleFrom: '#5E1F10',
+  titleTo: '#A5471E',
+  titleText: '#FFF1D6',
+  titleWarn: '#FFD58A',
+
+  // Text
+  ink: '#2A1A10',
+  inkSoft: '#5A3D26',
+  inkMuted: '#6E4B2E',
+  inkDeep: '#1C0F07',
+  cream: '#F6E2B8',
+  rust: '#8A3A16',
+  bassRed: '#A5361A',
+
+  // LCD
+  lcdBg: '#1C120A',
+  lcd: '#FFB347',
+  lcdBevelDark: '#24130A',
+  lcdBevelLight: '#8A6A4A',
 } as const;
 
-export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
-
-export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
-  },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
-  web: {
-    sans: 'system-ui, sans-serif',
-    serif: 'Georgia, serif',
-    rounded: 'ui-rounded, sans-serif',
-    mono: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-  },
-});
+/** Font family names as registered by the @expo-google-fonts packages (loaded in the root layout). */
+export const Fonts = {
+  display: 'Silkscreen_400Regular',
+  displayBold: 'Silkscreen_700Bold',
+  body: 'Bitter_400Regular',
+  bodyItalic: 'Bitter_400Regular_Italic',
+  bodySemi: 'Bitter_600SemiBold',
+  bodyBold: 'Bitter_700Bold',
+  lcd: 'VT323_400Regular',
+} as const;
 
 export const Spacing = {
   half: 2,
@@ -75,4 +66,4 @@ export const Spacing = {
   six: 64,
 } as const;
 
-export const MaxContentWidth = 800;
+export const MaxContentWidth = 560;

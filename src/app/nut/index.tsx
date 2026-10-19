@@ -1,17 +1,25 @@
 import { router } from 'expo-router';
 import { useCallback } from 'react';
-import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Fonts, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { Palette } from '@/constants/theme';
 import { NumberField } from '@/shared/components/NumberField';
+import {
+  bevel,
+  BevelButton,
+  engraved,
+  Lcd,
+  NavBar,
+  Screen,
+  T,
+  Window,
+} from '@/shared/components/retro';
 import { UnitToggle } from '@/shared/components/UnitToggle';
 import { formatLength, parseLength, toEditText, toInches, type LengthUnit } from '@/shared/units';
 import { NutDiagram } from '@/tools/nut/NutDiagram';
 import { ResultsTable } from '@/tools/nut/ResultsTable';
 import { computeSlots } from '@/tools/nut/spacing';
+import { formatGauge } from '@/tools/nut/stringSets';
 import {
   CUSTOM_SET_ID,
   findSet,
@@ -22,11 +30,11 @@ import {
 
 const WIDTH_PRESETS: Record<LengthUnit, { label: string; inches: number }[]> = {
   in: [
-    { label: '1 5/8', inches: 1.625 },
-    { label: '1 11/16', inches: 1.6875 },
-    { label: '1 3/4', inches: 1.75 },
-    { label: '1 7/8', inches: 1.875 },
-    { label: '2', inches: 2 },
+    { label: '1 5/8"', inches: 1.625 },
+    { label: '1 11/16"', inches: 1.6875 },
+    { label: '1 3/4"', inches: 1.75 },
+    { label: '1 7/8"', inches: 1.875 },
+    { label: '2"', inches: 2 },
   ],
   mm: [42, 43, 44, 45, 48].map((mm) => ({
     label: String(mm),
@@ -35,7 +43,6 @@ const WIDTH_PRESETS: Record<LengthUnit, { label: string; inches: number }[]> = {
 };
 
 export default function NutScreen() {
-  const theme = useTheme();
   const s = useNutStore();
   const unit = s.inputUnit;
 
@@ -53,21 +60,23 @@ export default function NutScreen() {
     s.setId === CUSTOM_SET_ID ? 'Custom' : (findSet(s.savedSets, s.setId)?.name ?? 'Custom');
 
   return (
-    <ThemedView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.content}
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag">
-        {/* Inputs */}
-        <View style={[styles.card, { backgroundColor: theme.backgroundElement + '80' }]}>
-          <View style={styles.cardHeader}>
-            <ThemedText type="smallBold">Nut</ThemedText>
-            <UnitToggle value={unit} onChange={s.setInputUnit} accessibilityLabel="Input unit" />
-          </View>
+    <Screen>
+      <NavBar
+        backLabel="TOOLS"
+        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        title="NUT SLOT CALC"
+      />
 
+      {/* Nut */}
+      <Window
+        title="NUT"
+        right={
+          <UnitToggle value={unit} onChange={s.setInputUnit} accessibilityLabel="Input unit" />
+        }>
+        <View style={styles.field}>
+          <T v="bodyBold">Nut width</T>
           <NumberField
-            label="Nut width"
+            accessibilityLabel="Nut width"
             value={s.width}
             onChange={s.setWidth}
             parse={parse}
@@ -78,212 +87,217 @@ export default function NutScreen() {
             {WIDTH_PRESETS[unit].map((p) => {
               const active = Math.abs(p.inches - s.width) < 1e-6;
               return (
-                <Pressable
+                <BevelButton
                   key={p.label}
+                  down={active}
+                  accessibilityLabel={`Nut width ${p.label}${unit === 'mm' ? ' millimeters' : ''}`}
                   onPress={() => s.setWidth(p.inches)}
-                  style={[
-                    styles.chip,
-                    {
-                      backgroundColor: active ? theme.accent : theme.backgroundSelected,
-                    },
-                  ]}>
-                  <ThemedText type="small" style={active ? styles.chipActive : undefined}>
-                    {p.label}
-                    {unit === 'in' ? '"' : ''}
-                  </ThemedText>
-                </Pressable>
+                  style={[styles.chip, active && styles.chipActive]}>
+                  <T v="lcd">{p.label}</T>
+                </BevelButton>
               );
             })}
           </View>
-
-          <NumberField
-            label="Bass offset"
-            hint="Bass edge → center of low string"
-            value={s.bassOffset}
-            onChange={s.setBassOffset}
-            parse={parse}
-            format={format}
-            suffix={unit}
-          />
-          <NumberField
-            label="Treble offset"
-            hint="Treble edge → center of high string"
-            value={s.trebleOffset}
-            onChange={s.setTrebleOffset}
-            parse={parse}
-            format={format}
-            suffix={unit}
-          />
         </View>
 
-        <View style={[styles.card, { backgroundColor: theme.backgroundElement + '80' }]}>
-          <View style={styles.cardHeader}>
-            <ThemedText type="smallBold">Strings</ThemedText>
-            <View style={styles.stepper}>
-              <StepButton
-                label="−"
-                disabled={s.gauges.length <= MIN_STRINGS}
-                onPress={() => s.setStringCount(s.gauges.length - 1)}
-              />
-              <ThemedText style={styles.count}>{s.gauges.length}</ThemedText>
-              <StepButton
-                label="+"
-                disabled={s.gauges.length >= MAX_STRINGS}
-                onPress={() => s.setStringCount(s.gauges.length + 1)}
-              />
-            </View>
+        <View style={styles.offsets}>
+          <View style={[styles.field, styles.half]}>
+            <T v="bodyBold">Bass offset</T>
+            <NumberField
+              accessibilityLabel="Bass offset"
+              value={s.bassOffset}
+              onChange={s.setBassOffset}
+              parse={parse}
+              format={format}
+              suffix={unit}
+            />
+            <T v="hint">Bass edge → center of low string</T>
           </View>
-          <Pressable
-            accessibilityRole="link"
-            onPress={() => router.push('/nut/strings')}
-            style={[styles.setRow, { backgroundColor: theme.backgroundElement }]}>
-            <View style={{ flex: 1 }}>
-              <ThemedText>{setName}</ThemedText>
-              <ThemedText type="small" themeColor="textSecondary" style={styles.mono}>
-                {s.gauges.map((g) => Math.round(g * 10000) / 10).join(' · ')}
-              </ThemedText>
-            </View>
-            <ThemedText themeColor="textSecondary">Edit ›</ThemedText>
-          </Pressable>
+          <View style={[styles.field, styles.half]}>
+            <T v="bodyBold">Treble offset</T>
+            <NumberField
+              accessibilityLabel="Treble offset"
+              value={s.trebleOffset}
+              onChange={s.setTrebleOffset}
+              parse={parse}
+              format={format}
+              suffix={unit}
+            />
+            <T v="hint">Treble edge → center of high string</T>
+          </View>
         </View>
+      </Window>
 
-        {/* Results */}
-        <View style={styles.cardHeader}>
-          <ThemedText style={styles.sectionTitle}>Slot positions</ThemedText>
-          <UnitToggle
-            value={s.outputUnit}
-            onChange={s.setOutputUnit}
-            accessibilityLabel="Result unit"
+      {/* Strings */}
+      <Window
+        title="STRINGS"
+        right={
+          <View style={styles.stepper}>
+            <BevelButton
+              flat
+              accessibilityLabel="Remove string"
+              disabled={s.gauges.length <= MIN_STRINGS}
+              onPress={() => s.setStringCount(s.gauges.length - 1)}
+              style={styles.stepButton}>
+              <T v="display" style={styles.stepLabel}>
+                -
+              </T>
+            </BevelButton>
+            <Lcd style={styles.count}>
+              <T v="lcd" style={styles.countText} accessibilityLabel={`${s.gauges.length} strings`}>
+                {s.gauges.length}
+              </T>
+            </Lcd>
+            <BevelButton
+              flat
+              accessibilityLabel="Add string"
+              disabled={s.gauges.length >= MAX_STRINGS}
+              onPress={() => s.setStringCount(s.gauges.length + 1)}
+              style={styles.stepButton}>
+              <T v="display" style={styles.stepLabel}>
+                +
+              </T>
+            </BevelButton>
+          </View>
+        }>
+        <Pressable
+          accessibilityRole="link"
+          accessibilityLabel={`String set ${setName}. Edit`}
+          onPress={() => router.push('/nut/strings')}
+          style={({ pressed }) => [styles.setRow, pressed ? bevel.in : bevel.out]}>
+          <View style={styles.setText}>
+            <T v="bodyBold" style={styles.setName}>
+              {setName}
+            </T>
+            <T v="lcd" style={styles.setGauges}>
+              {s.gauges.map(formatGauge).join(' · ')}
+            </T>
+          </View>
+          <T v="display" style={styles.edit}>
+            EDIT &gt;
+          </T>
+        </Pressable>
+      </Window>
+
+      {/* Results */}
+      <View style={styles.resultsHeader}>
+        <T v="displayBold" accessibilityRole="header" style={engraved}>
+          SLOT POSITIONS
+        </T>
+        <UnitToggle
+          value={s.outputUnit}
+          onChange={s.setOutputUnit}
+          accessibilityLabel="Result unit"
+          height={32}
+        />
+      </View>
+
+      <View style={[styles.panel, bevel.out]}>
+        <Lcd style={styles.diagram}>
+          {result.ok ? (
+            <NutDiagram
+              width={s.width}
+              slots={result.slots}
+              unit={s.outputUnit}
+              flipped={s.flipped}
+            />
+          ) : (
+            <View style={styles.errors} accessibilityRole="alert">
+              {result.errors.map((e) => (
+                <T key={e} v="lcd" style={styles.errorText}>
+                  ERR: {e}
+                </T>
+              ))}
+            </View>
+          )}
+        </Lcd>
+        <View style={styles.flipRow}>
+          <T style={styles.flipLabel}>Bass side on the right</T>
+          <Switch
+            accessibilityLabel="Bass side on the right"
+            value={s.flipped}
+            onValueChange={s.setFlipped}
+            trackColor={{ true: Palette.brass, false: Palette.lcdBg }}
+            thumbColor={Palette.maple}
+            ios_backgroundColor={Palette.lcdBg}
           />
         </View>
+      </View>
 
-        {result.ok ? (
-          <>
-            <View style={[styles.card, { backgroundColor: theme.backgroundElement + '80' }]}>
-              <NutDiagram
-                width={s.width}
-                slots={result.slots}
-                unit={s.outputUnit}
-                flipped={s.flipped}
-              />
-              <View style={styles.flipRow}>
-                <ThemedText type="small" themeColor="textSecondary">
-                  Bass side on the right
-                </ThemedText>
-                <Switch value={s.flipped} onValueChange={s.setFlipped} />
-              </View>
-            </View>
-
-            <View style={styles.summary}>
-              <Summary label="Gap between strings" value={formatLength(result.gap, s.outputUnit)} />
-              <Summary label="Outer slot span" value={formatLength(result.span, s.outputUnit)} />
-            </View>
-
-            <ResultsTable slots={result.slots} unit={s.outputUnit} />
-          </>
-        ) : (
-          <View style={[styles.card, { backgroundColor: theme.bassSoft }]}>
-            {result.errors.map((e) => (
-              <ThemedText key={e} type="small" style={{ color: theme.danger }}>
-                {e}
-              </ThemedText>
-            ))}
+      {result.ok ? (
+        <>
+          <View style={styles.summary}>
+            <Readout label="GAP BETWEEN STRINGS" value={formatLength(result.gap, s.outputUnit)} />
+            <Readout label="OUTER SLOT SPAN" value={formatLength(result.span, s.outputUnit)} />
           </View>
-        )}
-      </ScrollView>
-    </ThemedView>
+          <ResultsTable slots={result.slots} unit={s.outputUnit} />
+        </>
+      ) : null}
+    </Screen>
   );
 }
 
-function StepButton({
-  label,
-  onPress,
-  disabled,
-}: {
-  label: string;
-  onPress: () => void;
-  disabled: boolean;
-}) {
-  const theme = useTheme();
+function Readout({ label, value }: { label: string; value: string }) {
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label === '+' ? 'Add string' : 'Remove string'}
-      disabled={disabled}
-      onPress={onPress}
-      style={[
-        styles.stepButton,
-        {
-          backgroundColor: theme.backgroundSelected,
-          opacity: disabled ? 0.4 : 1,
-        },
-      ]}>
-      <ThemedText style={styles.stepLabel}>{label}</ThemedText>
-    </Pressable>
-  );
-}
-
-function Summary({ label, value }: { label: string; value: string }) {
-  const theme = useTheme();
-  return (
-    <View style={[styles.summaryItem, { backgroundColor: theme.backgroundElement }]}>
-      <ThemedText type="small" themeColor="textSecondary">
+    <View style={[styles.readout, bevel.out]} accessible accessibilityLabel={`${label}: ${value}`}>
+      <T v="display" style={styles.readoutLabel}>
         {label}
-      </ThemedText>
-      <ThemedText style={[styles.summaryValue, styles.mono]}>{value}</ThemedText>
+      </T>
+      <Lcd style={styles.readoutLcd}>
+        <T v="lcd" style={styles.readoutValue} adjustsFontSizeToFit numberOfLines={1}>
+          {value.replace(' mm', 'mm')}
+        </T>
+      </Lcd>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: {
-    padding: Spacing.three,
-    paddingBottom: Spacing.six,
-    gap: Spacing.three,
-    width: '100%',
-    maxWidth: MaxContentWidth,
-    alignSelf: 'center',
-  },
-  card: { borderRadius: 14, padding: Spacing.three, gap: Spacing.three },
-  cardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  sectionTitle: { fontSize: 20, fontWeight: 700 },
-  chips: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: Spacing.two,
-    marginTop: -Spacing.two,
-  },
-  chip: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 },
-  chipActive: { color: '#ffffff' },
-  stepper: { flexDirection: 'row', alignItems: 'center', gap: Spacing.two },
-  stepButton: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  stepLabel: { fontSize: 20, lineHeight: 22, fontWeight: 600 },
-  count: { minWidth: 24, textAlign: 'center', fontSize: 18, fontWeight: 700 },
+  field: { gap: 6 },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 2 },
+  chip: { paddingHorizontal: 8, gap: 0, backgroundColor: Palette.chip },
+  chipActive: { backgroundColor: Palette.brass },
+  offsets: { flexDirection: 'row', gap: 10 },
+  half: { flex: 1, gap: 4 },
+  stepper: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  stepButton: { width: 36, minHeight: 30, height: 30, paddingHorizontal: 0 },
+  stepLabel: { fontSize: 16 },
+  count: { minWidth: 34, height: 26, alignItems: 'center', justifyContent: 'center' },
+  countText: { fontSize: 24, lineHeight: 24, color: Palette.lcd },
   setRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 10,
-    padding: 12,
-    gap: 8,
+    gap: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    minHeight: 44,
+    backgroundColor: Palette.paper,
   },
-  mono: { fontFamily: Fonts.mono },
+  setText: { flex: 1, gap: 2 },
+  setName: { fontSize: 16 },
+  setGauges: { color: Palette.inkSoft },
+  edit: { fontSize: 11, color: Palette.rust },
+  resultsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  panel: { backgroundColor: Palette.panel, padding: 10, gap: 10 },
+  diagram: { paddingTop: 10, paddingBottom: 6, paddingHorizontal: 6 },
+  errors: { minHeight: 112, justifyContent: 'center', gap: 6, paddingHorizontal: 6 },
+  errorText: { fontSize: 20, lineHeight: 22, color: Palette.lcd },
   flipRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    minHeight: 44,
+    paddingHorizontal: 4,
   },
-  summary: { flexDirection: 'row', gap: Spacing.two },
-  summaryItem: { flex: 1, borderRadius: 10, padding: 12 },
-  summaryValue: { fontSize: 18, fontWeight: 700 },
+  flipLabel: { fontSize: 14, color: Palette.cream },
+  summary: { flexDirection: 'row', gap: 10 },
+  readout: { flex: 1, backgroundColor: Palette.panel, padding: 8, gap: 6 },
+  readoutLabel: { fontSize: 10, letterSpacing: 1, color: Palette.cream },
+  readoutLcd: { paddingHorizontal: 10, paddingVertical: 2 },
+  readoutValue: { fontSize: 34, lineHeight: 38, color: Palette.lcd, textAlign: 'right' },
 });
