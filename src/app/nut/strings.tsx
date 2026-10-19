@@ -20,6 +20,7 @@ export default function StringsScreen() {
     <ThemedView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.content}
+        contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag">
         {savedSets.length > 0 ? (
