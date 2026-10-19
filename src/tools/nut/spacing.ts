@@ -109,3 +109,41 @@ export function computeSlots(input: NutInput): NutResult {
 
   return { ok: true, slots, gap, span };
 }
+
+export type Breakdown = {
+  span: number;
+  gaugeSum: number;
+  /** Half of each outer string: the part of them that lies inside the span. */
+  outerHalves: number;
+  /** String material inside the span: Σd − (d₁ + dₙ)/2. */
+  stringsInSpan: number;
+  totalAir: number;
+  gap: number;
+  /** One step per slot after the first: x = previous + (d_prev + d)/2 + g. */
+  steps: { stringNumber: number; previous: number; halfPair: number; x: number }[];
+};
+
+/** Every intermediate value of the calculation, for showing the working. */
+export function breakdown(input: NutInput): Breakdown | null {
+  const result = computeSlots(input);
+  if (!result.ok) return null;
+  const { gauges } = input;
+  const n = gauges.length;
+  const gaugeSum = gauges.reduce((acc, d) => acc + d, 0);
+  const outerHalves = (gauges[0] + gauges[n - 1]) / 2;
+  const stringsInSpan = gaugeSum - outerHalves;
+  return {
+    span: result.span,
+    gaugeSum,
+    outerHalves,
+    stringsInSpan,
+    totalAir: result.span - stringsInSpan,
+    gap: result.gap,
+    steps: result.slots.slice(1).map((s, i) => ({
+      stringNumber: s.stringNumber,
+      previous: result.slots[i].fromBass,
+      halfPair: (gauges[i] + gauges[i + 1]) / 2,
+      x: s.fromBass,
+    })),
+  };
+}

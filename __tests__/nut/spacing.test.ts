@@ -1,5 +1,5 @@
 import { IN_TO_MM, formatLength, parseLength, toInches } from '@/shared/units';
-import { computeSlots, type NutInput } from '@/tools/nut/spacing';
+import { breakdown, computeSlots, type NutInput } from '@/tools/nut/spacing';
 import { formatGauge, getSet, parseGauge, resizeGauges } from '@/tools/nut/stringSets';
 
 const GAUGES_10_46 = [0.046, 0.036, 0.026, 0.017, 0.013, 0.01];
@@ -53,6 +53,31 @@ describe('computeSlots — worked example (1 11/16", 0.125" offsets, 10–46)', 
       trebleOffset: toInches(3.175, 'mm'),
     });
     fromMm.slots.forEach((s, i) => expect(s.fromBass).toBeCloseTo(r.slots[i].fromBass, 9));
+  });
+});
+
+describe('breakdown — shows the working of the worked example', () => {
+  it('matches the hand calculation', () => {
+    const b = breakdown(worked)!;
+    expect(b.span).toBeCloseTo(1.4375, 9);
+    expect(b.gaugeSum).toBeCloseTo(0.148, 9);
+    expect(b.outerHalves).toBeCloseTo(0.028, 9);
+    expect(b.stringsInSpan).toBeCloseTo(0.12, 9);
+    expect(b.totalAir).toBeCloseTo(1.3175, 9);
+    expect(b.gap).toBeCloseTo(0.2635, 9);
+    expect(b.steps[0]).toEqual({
+      stringNumber: 5,
+      previous: 0.125,
+      halfPair: expect.closeTo(0.041, 9),
+      x: expect.closeTo(0.4295, 9),
+    });
+    for (const step of b.steps) {
+      expect(step.previous + step.halfPair + b.gap).toBeCloseTo(step.x, 9);
+    }
+  });
+
+  it('is null when the input is invalid', () => {
+    expect(breakdown({ ...worked, width: 0 })).toBeNull();
   });
 });
 

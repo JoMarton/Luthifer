@@ -1,5 +1,6 @@
 import { useId, type ReactNode } from 'react';
 import {
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -270,6 +271,80 @@ export function BevelButton({
   );
 }
 
+/** Underlined pixel link that opens help or details. */
+export function TextLink({
+  children,
+  onPress,
+  accessibilityLabel,
+  style,
+}: {
+  children: string;
+  onPress: () => void;
+  accessibilityLabel?: string;
+  style?: StyleProp<ViewStyle>;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      hitSlop={{ top: 12, bottom: 12, left: 4, right: 4 }}
+      onPress={onPress}
+      style={({ pressed }) => [styles.link, pressed && styles.linkPressed, style]}>
+      <T v="display" style={styles.linkText}>
+        {children}
+      </T>
+    </Pressable>
+  );
+}
+
+/** A maple window floating over a dimmed screen. The body scrolls when it is tall. */
+export function Dialog({
+  visible,
+  title,
+  onClose,
+  onShow,
+  children,
+}: {
+  visible: boolean;
+  title: string;
+  onClose: () => void;
+  onShow?: () => void;
+  children: ReactNode;
+}) {
+  const insets = useSafeAreaInsets();
+  return (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+      onShow={onShow}>
+      <View
+        style={[
+          styles.overlay,
+          { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 },
+        ]}>
+        <View accessibilityViewIsModal style={[styles.dialog, bevel.out]}>
+          <View style={styles.titleBar}>
+            <T v="display" accessibilityRole="header" style={styles.titleText}>
+              {title}
+            </T>
+            <BevelButton flat accessibilityLabel="Close" onPress={onClose} style={styles.close}>
+              <T v="display">X</T>
+            </BevelButton>
+          </View>
+          <ScrollView
+            style={styles.dialogScroll}
+            contentContainerStyle={styles.dialogBody}
+            keyboardShouldPersistTaps="handled">
+            {children}
+          </ScrollView>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: Palette.wood },
   screenContent: {
@@ -323,4 +398,23 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.maple,
   },
   disabled: { opacity: 0.45 },
+  link: { alignSelf: 'flex-start', paddingVertical: 4 },
+  linkPressed: { opacity: 0.6 },
+  linkText: {
+    fontSize: 11,
+    color: Palette.rust,
+    textDecorationLine: 'underline',
+    letterSpacing: 0.5,
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(28,15,7,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  dialog: { width: '100%', maxWidth: 420, maxHeight: '100%', backgroundColor: Palette.maple },
+  close: { width: 30, minHeight: 26, height: 26, paddingHorizontal: 0 },
+  dialogScroll: { flexGrow: 0 },
+  dialogBody: { padding: 14, gap: 12 },
 });

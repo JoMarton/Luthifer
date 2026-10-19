@@ -2,7 +2,6 @@ import { router } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import {
   Keyboard,
-  Modal,
   Pressable,
   StyleSheet,
   TextInput,
@@ -13,7 +12,7 @@ import Svg, { Path } from 'react-native-svg';
 
 import { Fonts, Palette } from '@/constants/theme';
 import { NumberField } from '@/shared/components/NumberField';
-import { bevel, BevelButton, NavBar, Screen, T, Window } from '@/shared/components/retro';
+import { bevel, BevelButton, Dialog, NavBar, Screen, T, Window } from '@/shared/components/retro';
 import { formatGauge, parseGauge, STRING_SETS, type StringSet } from '@/tools/nut/stringSets';
 import { CUSTOM_SET_ID, findSet, useNutStore } from '@/tools/nut/useNutStore';
 
@@ -210,60 +209,42 @@ function SaveDialog({
   };
 
   return (
-    <Modal
+    <Dialog
       visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={close}
+      title="SAVE STRING SET"
+      onClose={close}
       onShow={() => nameInput.current?.focus()}>
-      <View style={styles.overlay}>
-        <View
-          accessibilityViewIsModal
-          style={[styles.dialog, bevel.out]}
-          aria-labelledby="save-title">
-          <View style={styles.dialogBar}>
-            <T v="display" nativeID="save-title" style={styles.dialogTitle}>
-              SAVE STRING SET
-            </T>
-            <BevelButton flat accessibilityLabel="Close" onPress={close} style={styles.close}>
-              <T v="display">X</T>
-            </BevelButton>
-          </View>
-          <View style={styles.dialogBody}>
-            <View style={[styles.preview, bevel.in]}>
-              <T v="lcd" style={styles.previewText}>
-                {gauges.map(formatGauge).join(' · ')}
-              </T>
-            </View>
-            <View style={styles.nameField}>
-              <T v="bodyBold">Set name</T>
-              <TextInput
-                ref={nameInput}
-                accessibilityLabel="Set name"
-                value={name}
-                onChangeText={setName}
-                placeholder={suggested}
-                placeholderTextColor={Palette.inkMuted}
-                returnKeyType="done"
-                onSubmitEditing={save}
-                style={[styles.nameInput, bevel.in]}
-              />
-              {replaces ? <T v="hint">A saved set with this name will be updated.</T> : null}
-            </View>
-            <View style={styles.dialogButtons}>
-              <BevelButton onPress={close}>
-                <T v="display">CANCEL</T>
-              </BevelButton>
-              <BevelButton onPress={save} disabled={!valid} style={styles.saveButton}>
-                <T v="displayBold" style={styles.saveLabel}>
-                  {replaces ? 'UPDATE' : 'SAVE'}
-                </T>
-              </BevelButton>
-            </View>
-          </View>
-        </View>
+      <View style={[styles.preview, bevel.in]}>
+        <T v="lcd" style={styles.previewText}>
+          {gauges.map(formatGauge).join(' · ')}
+        </T>
       </View>
-    </Modal>
+      <View style={styles.nameField}>
+        <T v="bodyBold">Set name</T>
+        <TextInput
+          ref={nameInput}
+          accessibilityLabel="Set name"
+          value={name}
+          onChangeText={setName}
+          placeholder={suggested}
+          placeholderTextColor={Palette.inkMuted}
+          returnKeyType="done"
+          onSubmitEditing={save}
+          style={[styles.nameInput, bevel.in]}
+        />
+        {replaces ? <T v="hint">A saved set with this name will be updated.</T> : null}
+      </View>
+      <View style={styles.dialogButtons}>
+        <BevelButton onPress={close}>
+          <T v="display">CANCEL</T>
+        </BevelButton>
+        <BevelButton onPress={save} disabled={!valid} style={styles.saveButton}>
+          <T v="displayBold" style={styles.saveLabel}>
+            {replaces ? 'UPDATE' : 'SAVE'}
+          </T>
+        </BevelButton>
+      </View>
+    </Dialog>
   );
 }
 
@@ -367,27 +348,6 @@ const styles = StyleSheet.create({
   },
   gaugeField: { width: 96 },
   saveOpen: { marginTop: 8 },
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(28,15,7,0.55)',
-    alignItems: 'center',
-    paddingTop: 140,
-    paddingHorizontal: 24,
-  },
-  dialog: { width: '100%', maxWidth: 342, backgroundColor: Palette.maple },
-  dialogBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 4,
-    paddingLeft: 10,
-    paddingRight: 4,
-    backgroundColor: Palette.titleTo,
-    backgroundImage: `linear-gradient(90deg, ${Palette.titleFrom}, ${Palette.titleTo})`,
-  },
-  dialogTitle: { color: Palette.titleText, letterSpacing: 1 },
-  close: { width: 30, minHeight: 26, height: 26, paddingHorizontal: 0 },
-  dialogBody: { padding: 14, gap: 12 },
   preview: { backgroundColor: Palette.lcdBg, paddingVertical: 6, paddingHorizontal: 10 },
   previewText: { fontSize: 22, color: Palette.lcd },
   nameField: { gap: 6 },
