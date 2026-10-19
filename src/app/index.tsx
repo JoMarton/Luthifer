@@ -1,14 +1,17 @@
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
 import { Fonts, Palette } from '@/constants/theme';
 import { bevel, Screen, T, Window } from '@/shared/components/retro';
+import { useSettings } from '@/shared/settings';
 import { TOOLS } from '@/tools';
 
 const DRAWER_SLOTS = 3;
 
 export default function HomeScreen() {
   // Placeholders for tools still to come; the first tool has its own wide card.
+  const analytics = useSettings((s) => s.analytics);
+  const setAnalytics = useSettings((s) => s.setAnalytics);
   const empty = Math.max(0, DRAWER_SLOTS - (TOOLS.length - 1));
 
   return (
@@ -69,6 +72,19 @@ export default function HomeScreen() {
           More tools coming.
         </T>
         <View style={styles.spacer} />
+        <View style={styles.privacyRow}>
+          <T v="hint" style={styles.privacyLabel}>
+            Share anonymous usage data (no personal info)
+          </T>
+          <Switch
+            accessibilityLabel="Share anonymous usage data"
+            value={analytics}
+            onValueChange={setAnalytics}
+            trackColor={{ true: Palette.brass, false: Palette.bevelDark }}
+            thumbColor={Palette.paper}
+            ios_backgroundColor={Palette.bevelDark}
+          />
+        </View>
         <View style={styles.statusBar}>
           <T v="lcd" style={[styles.statusCell, bevel.in, styles.statusGrow]}>
             {TOOLS.length} tool{TOOLS.length === 1 ? '' : 's'} installed
@@ -141,6 +157,8 @@ const styles = StyleSheet.create({
   slotText: { fontSize: 11, color: Palette.inkMuted, textAlign: 'center' },
   more: { textAlign: 'center' },
   spacer: { flex: 1 },
+  privacyRow: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 44 },
+  privacyLabel: { flex: 1, fontSize: 13 },
   statusBar: { flexDirection: 'row', gap: 4, marginHorizontal: -10, marginBottom: -2 },
   statusCell: { paddingHorizontal: 8, paddingVertical: 4, fontSize: 15, color: '#3A2410' },
   statusGrow: { flex: 1 },

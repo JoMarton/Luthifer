@@ -43,6 +43,24 @@ npm run icons       # re-render icon, adaptive icon, splash and favicon from scr
   - Support: https://jomarton.github.io/Luthifer/
   - Privacy policy: https://jomarton.github.io/Luthifer/privacy.html
 
+## Analytics
+
+Anonymous usage data goes to PostHog (`src/shared/analytics.ts` for the apps,
+`analytics.web.ts` for the website). Only three events are sent — `app_opened`, `tool_opened`
+and `results_viewed` — and PostHog adds device, OS / browser and approximate location.
+Users can turn it off on the home screen.
+
+Set the project's public key in `.env` (committed, since it's a public client key, so local
+builds, EAS builds and CI all pick it up):
+
+```
+EXPO_PUBLIC_POSTHOG_KEY=phc_...
+EXPO_PUBLIC_POSTHOG_HOST=https://eu.i.posthog.com   # or https://us.i.posthog.com
+```
+
+Analytics is off without a key, in development (`expo start`) and under Jest. The browser tests
+intercept all PostHog requests, so test runs never reach real analytics.
+
 ## Web
 
 ```bash

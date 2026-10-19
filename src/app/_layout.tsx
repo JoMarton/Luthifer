@@ -18,6 +18,8 @@ import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import { Palette } from '@/constants/theme';
+import { startAnalytics } from '@/shared/analytics';
+import { useSettings } from '@/shared/settings';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,6 +38,13 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded || error) SplashScreen.hideAsync();
   }, [loaded, error]);
+
+  // Start analytics once the user's saved opt-out choice has loaded.
+  useEffect(() => {
+    const start = () => startAnalytics(useSettings.getState().analytics);
+    if (useSettings.persist.hasHydrated()) start();
+    else return useSettings.persist.onFinishHydration(start);
+  }, []);
 
   // Native: wait for the bundled fonts (fast), falling back to system fonts on error.
   // Web: render at once and let the fonts swap in — Safari's font-load detection can

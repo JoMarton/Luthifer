@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
@@ -16,6 +16,7 @@ import {
   TextLink,
   Window,
 } from '@/shared/components/retro';
+import { track } from '@/shared/analytics';
 import { UnitToggle } from '@/shared/components/UnitToggle';
 import { formatLength, parseLength, toEditText, toInches, type LengthUnit } from '@/shared/units';
 import { NutDiagram } from '@/tools/nut/NutDiagram';
@@ -67,6 +68,29 @@ export default function NutScreen() {
   const result = computeSlots(input);
   const working = breakdown(input);
   const guitars = matchGuitars(s.width);
+
+  useEffect(() => track({ name: 'tool_opened', props: { tool: 'nut' } }), []);
+
+  // One results_viewed per visit, once valid results have been on screen for 3 s.
+  const viewed = useRef(false);
+  useEffect(() => {
+    if (!result.ok || viewed.current) return;
+    const timer = setTimeout(() => {
+      viewed.current = true;
+      const now = useNutStore.getState();
+      track({
+        name: 'results_viewed',
+        props: {
+          tool: 'nut',
+          string_count: now.gauges.length,
+          string_set: now.setId.startsWith('user-') ? 'saved' : now.setId,
+          input_unit: now.inputUnit,
+          result_unit: now.outputUnit,
+        },
+      });
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [result.ok]);
 
   const setName =
     s.setId === CUSTOM_SET_ID ? 'Custom' : (findSet(s.savedSets, s.setId)?.name ?? 'Custom');

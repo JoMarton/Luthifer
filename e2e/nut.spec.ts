@@ -1,4 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+
+import { expect, test } from './fixtures';
 
 const APP = '/Luthifer/app/';
 
@@ -147,7 +149,5 @@ test('support and privacy pages are published next to the app', async ({ page })
   await page.goto('/Luthifer/');
   await expect(page.getByRole('heading', { name: 'Nut Slot Calculator' })).toBeVisible();
   await page.getByRole('link', { name: 'Privacy policy' }).click();
-  await expect(
-    page.getByText('Luthifer does not collect, send or share any personal data.'),
-  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Anonymous usage data' })).toBeVisible();
 });
